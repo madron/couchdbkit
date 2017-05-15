@@ -8,6 +8,7 @@ module to fetch and stream changes from a database
 """
 
 from .utils import json
+import collections
 
 
 class ChangesStream(object):
@@ -99,7 +100,7 @@ def fold(db, fun, acc, since=0):
 
     """
 
-    if not callable(fun):
+    if not isinstance(fun, collections.Callable):
         raise TypeError("fun isn't a callable")
 
     with ChangesStream(db, since=since) as st:
@@ -111,7 +112,7 @@ def fold(db, fun, acc, since=0):
 def foreach(db, fun, since=0):
     """Iter each changes and pass it to the callable"""
 
-    if not callable(fun):
+    if not isinstance(fun, collections.Callable):
         raise TypeError("fun isn't a callable")
 
     with ChangesStream(db, since=since) as st:
